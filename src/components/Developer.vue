@@ -79,13 +79,12 @@
       </div>
       <br />
       <div class="row">
-        <div class="col-md-3">
-          <button type="submit" class="btn btn-default btn-sm pull-right" @click="addDeveloper">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-default btn-xs" @click="addDeveloper">
             提交
           </button>
-        </div>
-        <div class="col-md-3">
-          <button type="submit" class="btn btn-default btn-sm" @click="closeAddDialog">
+          <button type="submit" class="btn btn-default btn-xs" @click="closeAddDialog">
             取消
           </button>
         </div>
@@ -99,10 +98,13 @@
     <delete-confirm-dialog :developer="developer" :ifShowMe="ifShowDeleteConfirm" @on-close="closeDeleteConfirmDialog">
       <h4>确定要删除么? </h4>
       <br>
-      <button @click="deleteDev(developer)" type="button" class="btn btn-xs btn-danger ">
-        <i class="fa fa-check"></i> 确定
+      <button @click="deleteDev(developer)" type="button" class="btn btn-xs">
+        确定
       </button>
 
+      <button @click="closeDeleteConfirmDialog" type="button" class="btn btn-xs">
+        取消
+      </button>
     </delete-confirm-dialog>
   </div>
 </template>
@@ -151,7 +153,18 @@
       editDev(developer) {
         //console.info("edit");
       },
-      deleteDev(developer) {
+      deleteDev() {
+        var vm = this
+        let id = this.developerReadyToDel.id
+        vm.$http.delete(
+          '/api/bg/developers/' + id).then((res) => {
+          console.info(res);
+          if (res.data == 1) {
+            window.location.reload();
+          }else{
+            alert("未知错误!")
+          }
+        })
         //console.info("delete");
       },
       addBtn() {
@@ -162,7 +175,23 @@
         this.inputDeveloper.name = ""
       },
       addDeveloper() {
-
+        //console.info(this.inputDeveloper)
+        var vm = this
+        let reqParam = {
+          name: this.inputDeveloper.name,
+          type: this.inputDeveloper.type,
+        }
+        vm.$http.post(
+          '/api/bg/developers/',
+          reqParam, {
+            //模拟表单提交
+            emulateJSON: true
+          }).then((res) => {
+          //console.info(res.data)
+          if (res.data == 1) {
+            window.location.reload();
+          }
+        })
       },
       closeDeleteConfirmDialog() {
         this.ifShowDeleteConfirm = false
@@ -212,4 +241,4 @@
 </style>
 
 
-<!-- Remember, always decent and simple! -->
+<!-- Always decent and be simple! -->
