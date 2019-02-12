@@ -29,7 +29,7 @@
                     <td>
                       <!--  <span class="label label-primary " @click="editDev(developer)"><i class="fa fa-edit"></i> 编辑</span>
                       <span class="label label-primary" @click="deleteDev(developer)"><i class="fa fa-remove"></i> 删除</span> -->
-                      <button type="button" class="btn btn-default btn-xs" @click="editDev(developer)">
+                      <button type="button" class="btn btn-default btn-xs" @click="editDevBtn(developer)">
                         <i class="fa fa-edit"></i>
                         编辑</button>
                       <button type="button" class="btn btn-default btn-xs" @click="deleteConfirm(developer)">
@@ -51,6 +51,46 @@
         </div>
       </div>
     </div>
+
+    <!-- 编辑用的dialog -->
+    <developer-detail-dialog :ifShowMe="ifShowEditDialog" @on-close="closeEditDialog" :developerReadyToEdit="developerReadyToEdit">
+      <h4> <i class="fa fa-edit"></i> 编辑</h4>
+      <!--  {{inputDeveloper.name}}{{inputDeveloper.type}} -->
+      <br>
+      <div class="row">
+        <div class="col-md-2">
+          名称
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control input-sm" v-model="developerReadyToEdit.name" />
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-2">
+          类型
+        </div>
+        <div class="col-md-6">
+          <input type="radio" value="1" id="optionsRadios1" v-model="developerReadyToEdit.type" />
+          个人开发者
+          <input type="radio" value="2" id="optionsRadios2" v-model="developerReadyToEdit.type" />
+          公司
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-default btn-xs" @click="editDeveloper">
+            提交
+          </button>
+          <button type="submit" class="btn btn-default btn-xs" @click="closeEditDialog">
+            取消
+          </button>
+        </div>
+      </div>
+
+    </developer-detail-dialog>
 
     <!-- 新增开发者dialog -->
     <developer-detail-dialog :ifShowMe="ifShowAddDialog" @on-close="closeAddDialog" :inputDeveloper="inputDeveloper">
@@ -89,8 +129,6 @@
           </button>
         </div>
       </div>
-
-
     </developer-detail-dialog>
 
 
@@ -136,10 +174,12 @@
         ifShowAddDialog: false,
         developer: {},
         developerReadyToDel: {},
+        ifShowEditDialog: false,
         inputDeveloper: {
           name: '',
           type: 1,
-        }
+        },
+        developerReadyToEdit: {}
       }
     },
     methods: {
@@ -150,8 +190,26 @@
           //console.info(developers);
         })
       },
-      editDev(developer) {
-        //console.info("edit");
+      editDeveloper() {
+        var vm = this
+        let id = this.developerReadyToEdit.id
+        let reqParam = {
+          name: this.developerReadyToEdit.name,
+          type: this.developerReadyToEdit.type,
+        }
+        vm.$http.put(
+          '/api/bg/developers/' + id,
+          reqParam, {
+            //模拟表单提交
+            emulateJSON: true
+          }).then((res) => {
+          //console.info(res.data)
+          if (res.data == 1) {
+            window.location.reload();
+          }else {
+            alert("未知错误!")
+          }
+        })
       },
       deleteDev() {
         var vm = this
@@ -161,7 +219,7 @@
           console.info(res);
           if (res.data == 1) {
             window.location.reload();
-          }else{
+          } else {
             alert("未知错误!")
           }
         })
@@ -199,11 +257,17 @@
       closeAddDialog() {
         this.ifShowAddDialog = false
       },
+      closeEditDialog() {
+        this.ifShowEditDialog = false
+      },
       deleteConfirm(developer) {
         this.developerReadyToDel = developer
         this.ifShowDeleteConfirm = true
       },
-
+      editDevBtn(developer) {
+        this.developerReadyToEdit = developer
+        this.ifShowEditDialog = true
+      }
 
     },
     computed: {
