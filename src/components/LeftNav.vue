@@ -33,14 +33,17 @@
               <li><a href="dashboard_5.html">主页示例 v.5 </a></li>
             </ul>
           </li>
-          <li  class="active">
+          <li class="active">
             <a href="system.html"><i class="fa fa-diamond"></i> <span class="nav-label">技能相关</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
               <li>
                 <router-link to="/develpoer">开发者信息</router-link>
               </li>
-                <li>
+              <li>
                 <router-link to="/skill">技能</router-link>
+              </li>
+              <li>
+                <router-link to="/example">技能示例</router-link>
               </li>
             </ul>
           </li>
