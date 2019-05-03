@@ -21,16 +21,22 @@
           <li>
             <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">内容运营</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
+              <!--  <li>
+                <router-link to="/fileupload">图片上传</router-link>
+              </li> -->
               <li>
-                <router-link to="/foo">Go to Foo</router-link>
+                <router-link to="/featuredcontent">推荐内容</router-link>
               </li>
               <li>
-                <router-link to="/bar">Go to Bar</router-link>
+                <router-link to="/banner">滚动条/Banner</router-link>
               </li>
-              <li><a href="dashboard_2.html">主页示例 v.2</a></li>
-              <li><a href="dashboard_3.html">主页示例 v.3</a></li>
-              <li><a href="dashboard_4_1.html">主页示例 v.4</a></li>
-              <li><a href="dashboard_5.html">主页示例 v.5 </a></li>
+              <li>
+                <router-link to="/miguvoice">咪咕听书</router-link>
+              </li>
+              <!--  -->
+              <!--  <li>
+                <router-link to="/images">图片管理</router-link>
+              </li> -->
             </ul>
           </li>
           <li class="active">

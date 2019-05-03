@@ -131,7 +131,6 @@
       </div>
     </developer-detail-dialog>
 
-
     <!--  确定删除用的dialog -->
     <delete-confirm-dialog :developer="developer" :ifShowMe="ifShowDeleteConfirm" @on-close="closeDeleteConfirmDialog">
       <h4>确定要删除么? </h4>
@@ -139,7 +138,6 @@
       <button @click="deleteDev(developer)" type="button" class="btn btn-xs">
         确定
       </button>
-
       <button @click="closeDeleteConfirmDialog" type="button" class="btn btn-xs">
         取消
       </button>
@@ -155,7 +153,7 @@
   export default {
     created: function() {
       var vm = this;
-      vm.$http.get('/api/bg/developers/').then((res) => {
+      vm.$http.get(apiHost + '/developers/').then((res) => {
         //developers = res.data;
         this.developers = res.data;
         console.info(this.developers[0].name);
@@ -177,7 +175,7 @@
         ifShowEditDialog: false,
         inputDeveloper: {
           name: '',
-          type: 1,
+          type: 2,
         },
         developerReadyToEdit: {}
       }
@@ -198,7 +196,7 @@
           type: this.developerReadyToEdit.type,
         }
         vm.$http.put(
-          '/api/bg/developers/' + id,
+          apiHost + '/developers/' + id,
           reqParam, {
             //模拟表单提交
             emulateJSON: true
@@ -206,7 +204,7 @@
           //console.info(res.data)
           if (res.data == 1) {
             window.location.reload();
-          }else {
+          } else {
             alert("未知错误!")
           }
         })
@@ -215,7 +213,7 @@
         var vm = this
         let id = this.developerReadyToDel.id
         vm.$http.delete(
-          '/api/bg/developers/' + id).then((res) => {
+          apiHost + '/developers/' + id).then((res) => {
           console.info(res);
           if (res.data == 1) {
             window.location.reload();
@@ -229,7 +227,7 @@
         //显示出来
         this.ifShowAddDialog = true
         //重置一下
-        this.inputDeveloper.type = 1
+        this.inputDeveloper.type = 2
         this.inputDeveloper.name = ""
       },
       addDeveloper() {
@@ -240,7 +238,7 @@
           type: this.inputDeveloper.type,
         }
         vm.$http.post(
-          '/api/bg/developers/',
+          apiHost + '/developers/',
           reqParam, {
             //模拟表单提交
             emulateJSON: true

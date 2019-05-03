@@ -3,8 +3,8 @@
     <div class="dialog-cover" @click="closeMe" v-if="ifShowMe">
     </div>
     <transition name="drop">
-      <div class="dialog-content developer-detail" v-if="ifShowMe">
-      <!--  <p class="dialog-close" @click="closeMe">
+      <div class="dialog-content" v-if="ifShowMe">
+        <!--  <p class="dialog-close" @click="closeMe">
           <i class="fa fa-rotate-left"></i>
         </p> -->
         <slot>empty here if you cant see the slot</slot>
@@ -21,14 +21,11 @@
         type: Boolean,
         default: false
       },
-      developer: {
-
-      },
+      developer: {},
       inputDeveloper: {},
-      dialogInput:{},
-      developerReadyToEdit: {
-
-      }
+      dialogInput: {},
+      developerReadyToEdit: {},
+      inputFC: {}
     },
     data() {
       return {
@@ -44,9 +41,36 @@
   }
 </script>
 
-<style scoped>
-  .dialog-content.developer-detail {
-    width: 50%;
+<style>
+  .drop-enter-active {
+    transition: all .5s ease;
+  }
+
+  .drop-leave-active {
+    transition: all .3s ease;
+  }
+
+  .drop-enter {
+    transform: translateY(-300px);
+  }
+
+  .drop-leave-active {
+    transform: translateY(-300px);
+  }
+
+  .dialog-cover {
+    background: #000;
+    opacity: .3;
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dialog-content {
+    width: 60%;
     position: fixed;
     max-height: 80%;
     overflow: auto;
@@ -59,5 +83,14 @@
     padding: 2%;
     line-height: 1.6;
     text-align: left;
+  }
+
+  .dialog-close {
+    float: right;
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    font-size: 20pt;
+    font-family: "Consolas";
   }
 </style>
